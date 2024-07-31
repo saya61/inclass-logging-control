@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<configuration>
+    <!--  로그를 지정하는 2가지 위치에 대해서 Appender 선언  -->
+
+    <!--  0. Spring Boot 기본 콘솔 로그 출력을 그대로 유지하기!  -->
+    <SpringProfile name="default">
+        <!--  CONSOLE & FILE Appender 기본 정의 불러오기  -->
+        <include resource="org/springframework/boot/logging/logback/base.xml"/>
+    </SpringProfile>
+
+<!--    &lt;!&ndash;  1. ConsoleAppender  &ndash;&gt;-->
+<!--    &lt;!&ndash;  appender : 로그를 기록할 때 상세 설정을 담당하는 태그 (출력 및 저장)  &ndash;&gt;-->
+<!--    &lt;!&ndash;  appender = LogHandler, Handler 등으로도 부름  &ndash;&gt;-->
+<!--    <appender name="CONSOLE" class="ch.qos.logback.core.ConsoleAppender">-->
+<!--        <encoder class="ch.qos.logback.classic.encoder.PatternLayoutEncoder">-->
+<!--            &lt;!&ndash;  Thread 명 / Class 명  &ndash;&gt;-->
+<!--&lt;!&ndash;            <pattern>%-5level %d{yy-MM-dd HH:mm:ss}[%thread] [%logger{0}:%line] - %msg%n</pattern>&ndash;&gt;-->
+<!--            <pattern>%-5level %d{yy-MM-dd HH:mm:ss} - %msg%n</pattern>-->
+<!--        </encoder>-->
+<!--    </appender>-->
+
+    <!--  2. FileAppender  (RollingFileAppender)-->
+    <!--  Rolling : 짤라서 저장 -->
+    <!--  테스트용 파일 어펜더 (root logger 에 적용해서 확인)  -->
+    <appender name="LOGCONTROLLER" class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <file>logs/logcotroller.log</file>
+        <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+            <!--  롤링 주기를 아래와 같이 날짜 패턴 선언만으로 제어할 수 있음 (하나만 선택)  -->
+<!--            <fileNamePattern>logs/logcotroller.%d{yyyy-MM}.log</fileNamePattern>  &lt;!&ndash;  monthly  &ndash;&gt;-->
+<!--            <fileNamePattern>logs/logcotroller.%d{yyyy-MM-dd}.log</fileNamePattern>  &lt;!&ndash;  daily  &ndash;&gt;-->
+<!--            <fileNamePattern>logs/logcotroller.%d{yyyy-MM-dd_HH}.log</fileNamePattern>  &lt;!&ndash;  hourly  &ndash;&gt;-->
+            <fileNamePattern>logs/logcotroller.%d{yyyy-MM-dd_HH-mm}.log</fileNamePattern>  <!--  minutely  -->
+
+            <!--  로그 보관 개수와 기간 정의 가능-->
+            <!-- keep 30 days' worth of history capped at 3GB total size -->
+            <maxHistory>30</maxHistory>
+            <!--  로그 파일의 최대 용량 정의 가능 - 3GB 이상이 되면 주기 상관없이 롤링 -->
+            <totalSizeCap>3GB</totalSizeCap>
+        </rollingPolicy>
+
+        <encoder>
+            <pattern>%-5level %d{yy-MM-dd HH:mm:ss} - %msg%n</pattern>-->
+<!--            <pattern>%-4relative [%thread] %-5level %logger{35} - %msg%n</pattern>-->
+        </encoder>
+    </appender>
+
+    <!--  logger 는 로그 기록의 상위 설정 (기록 단위)  -->
+    <!--  logger 아래에 Handler 가 사용되는 구조로 파악-->
+<!--    <logger name="jpabook.jpashop.test" level="warn" additivity="true">-->
+<!--        <appender-ref ref="CONSOLE"/>-->
+<!--    </logger>-->
+
+    <!-- root 는 기본 logger -->
+    <root level="INFO">
+    <!--  위에 있는 CONSOLE 을 참조 -->
+        <appender-ref ref="CONSOLE"/>
+    </root>
+</configuration>
