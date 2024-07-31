@@ -22,13 +22,25 @@
     <!--  2. FileAppender  (RollingFileAppender)-->
     <!--  Rolling : 짤라서 저장 -->
     <!--  테스트용 파일 어펜더 (root logger 에 적용해서 확인)  -->
+    <appender name="FILE" class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <file>logs/spring-application.log</file>
+        <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+            <fileNamePattern>logs/spring-application.%d{yyyy-MM-dd_HH-mm}.log</fileNamePattern>  <!--  minutely  -->
+            <maxHistory>30</maxHistory>
+        </rollingPolicy>
+
+        <encoder>
+            <pattern>%-5level %d{yy-MM-dd HH:mm:ss} - %msg%n</pattern>-->
+        </encoder>
+    </appender>
+
     <appender name="LOGCONTROLLER" class="ch.qos.logback.core.rolling.RollingFileAppender">
         <file>logs/logcotroller.log</file>
         <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
             <!--  롤링 주기를 아래와 같이 날짜 패턴 선언만으로 제어할 수 있음 (하나만 선택)  -->
-<!--            <fileNamePattern>logs/logcotroller.%d{yyyy-MM}.log</fileNamePattern>  &lt;!&ndash;  monthly  &ndash;&gt;-->
-<!--            <fileNamePattern>logs/logcotroller.%d{yyyy-MM-dd}.log</fileNamePattern>  &lt;!&ndash;  daily  &ndash;&gt;-->
-<!--            <fileNamePattern>logs/logcotroller.%d{yyyy-MM-dd_HH}.log</fileNamePattern>  &lt;!&ndash;  hourly  &ndash;&gt;-->
+            <!--            <fileNamePattern>logs/logcotroller.%d{yyyy-MM}.log</fileNamePattern>  &lt;!&ndash;  monthly  &ndash;&gt;-->
+            <!--            <fileNamePattern>logs/logcotroller.%d{yyyy-MM-dd}.log</fileNamePattern>  &lt;!&ndash;  daily  &ndash;&gt;-->
+            <!--            <fileNamePattern>logs/logcotroller.%d{yyyy-MM-dd_HH}.log</fileNamePattern>  &lt;!&ndash;  hourly  &ndash;&gt;-->
             <fileNamePattern>logs/logcotroller.%d{yyyy-MM-dd_HH-mm}.log</fileNamePattern>  <!--  minutely  -->
 
             <!--  로그 보관 개수와 기간 정의 가능-->
@@ -40,19 +52,27 @@
 
         <encoder>
             <pattern>%-5level %d{yy-MM-dd HH:mm:ss} - %msg%n</pattern>-->
-<!--            <pattern>%-4relative [%thread] %-5level %logger{35} - %msg%n</pattern>-->
+            <!--            <pattern>%-4relative [%thread] %-5level %logger{35} - %msg%n</pattern>-->
         </encoder>
     </appender>
-
-    <!--  logger 는 로그 기록의 상위 설정 (기록 단위)  -->
-    <!--  logger 아래에 Handler 가 사용되는 구조로 파악-->
-<!--    <logger name="jpabook.jpashop.test" level="warn" additivity="true">-->
-<!--        <appender-ref ref="CONSOLE"/>-->
-<!--    </logger>-->
 
     <!-- root 는 기본 logger -->
     <root level="INFO">
     <!--  위에 있는 CONSOLE 을 참조 -->
         <appender-ref ref="CONSOLE"/>
+        <!--  FILE 로그도 함께 찍어서 향후 디버깅에 활용  -->
+        <appender-ref ref="FILE"/>
     </root>
+
+    <!--  logger 는 로그 기록의 상위 설정 (기록 단위)  -->
+    <!--  logger 아래에 Handler 가 사용되는 구조로 파악-->
+    <!--  logger 커스텀 선언  -->
+    <!--  디버깅이 아닌 분석용이라 INFO 레벨로 설정  -->
+    <!--  name : 패키지 또는 클래스 FULL PATH  -->
+    <logger  level="INFO"
+                name="ac.su.kdt.inclassloggingcontrol.controller.LogController"
+                additivity="false"> <!--  additivity 는 상위 패키지 로그 전파 여부  -->
+        <appender-ref ref="LOGCONTROLLER"/>
+        <appender-ref ref="cONSOLE"/>
+    </logger>
 </configuration>

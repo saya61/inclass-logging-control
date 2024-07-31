@@ -1,13 +1,13 @@
-package ac.su.kdt.inclassloggincontrol;
+package ac.su.kdt.inclassloggingcontrol;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 @SpringBootApplication
-public class InclassLogginControlApplication {
+public class InclassLoggingControlApplication {
 
     public static void main(String[] args) {
-        SpringApplication.run(InclassLogginControlApplication.class, args);
+        SpringApplication.run(InclassLoggingControlApplication.class, args);
     }
 
 }
