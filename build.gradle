@@ -40,7 +40,7 @@ tasks.named('test') {
     useJUnitPlatform()
 }
 
-def buildTime = new Date().format("YYMMdd_HHmm", TimeZone.getTimeZone("Asia/Seoul"))
+def buildTime = new Date().format("YYMMdd_HHmm")
 
 bootJar {
     // JAR 파일의 이름을 구성합니다.
